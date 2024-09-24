@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "@/app/globals.css";
 
 export default function Navbar() {
@@ -11,9 +12,21 @@ export default function Navbar() {
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
-                                <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Create</a>
-                                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Delete</a>
-                                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Update</a>
+                                <Link href={"/Create"}>
+                                    <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+                                        Create
+                                    </span>
+                                </Link>         
+                                <Link href={"/Delete"}>
+                                    <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+                                        Delete
+                                    </span>
+                                </Link>   
+                                <Link href={"/Update"}>
+                                    <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+                                        Update
+                                    </span>
+                                </Link>                        
                             </div>
                         </div>
                     </div>
