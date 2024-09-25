@@ -7,7 +7,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Navbar/>
-        <link rel="stylesheet" href="globals.css" />
         {children}
         <Footer/>
       </body>

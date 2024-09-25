@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import "@/app/globals.css";
 
 export default function Navbar() {
@@ -8,7 +9,11 @@ export default function Navbar() {
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex flex-shrink-0 items-center">
-                            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                            <Link href="/">
+                                <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+                                    Home
+                                </span>
+                            </Link>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
