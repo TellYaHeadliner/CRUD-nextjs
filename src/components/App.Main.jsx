@@ -1,24 +1,23 @@
 'use client'
-import "@/app/globals.css";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+
+import "@/app/globals.css";
 
 
 export default function Main(){
-    const [blogs, setBlogs] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('http://localhost:8000/blogs');
-            const data = await response.json();
-            setBlogs(data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-      
-        fetchData();
-      }, []);
+  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  
+  const { data, error, isLoading } = useSWR('http://localhost:8000/blogs', fetcher);
+  if (error) {
+    return <h1>Có lỗi xảy ra khi loading :(((((((</h1>
+  }
 
+  if (isLoading){
+    return <h1>Địt mẹ tao đang loading</h1>
+  }
+   
     return (
         <table className="table-auto border-collapse border border-gray-300 w-full">
         <thead>
@@ -30,12 +29,12 @@ export default function Main(){
           </tr>
         </thead>
         <tbody>
-          {blogs.map((blog) => (
-            <tr key={blog.id}>
-              <td className="border border-gray-300 p-2">{blog.id}</td>
-              <td className="border border-gray-300 p-2">{blog.title}</td>
-              <td className="border border-gray-300 p-2">{blog.author}</td>
-              <td className="border border-gray-300 p-2">{blog.content}</td>
+          {data.map((data) => (
+            <tr key={data.id}>
+              <td className="border border-gray-300 p-2">{data.id}</td>
+              <td className="border border-gray-300 p-2">{data.title}</td>
+              <td className="border border-gray-300 p-2">{data.author}</td>
+              <td className="border border-gray-300 p-2">{data.content}</td>
             </tr>
           ))}
         </tbody>

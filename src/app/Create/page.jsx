@@ -3,11 +3,33 @@
 import "@/app/globals.css";
 
 import { useForm } from "react-hook-form";
+import { toast} from "react-toastify";
+
+
 
 export default function Create(){
     const { register, handleSubmit, formState: {errors}, } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch("http://localhost:8000/blogs", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok){
+                const result = await response.json();
+                toast.success("Dữ liệu của bạn đã thêm thành công");
+            }
+            else {
+                toast.error('Có lỗi khi chèn dữ liệu');
+            }
+        } 
+        catch (error) {
+            console.error(error);
+        }   
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-lg mx-auto p-4">
@@ -29,7 +51,7 @@ export default function Create(){
                 </label>
             <input
                 id="title"
-                {...register("title", { required: "Author is required" })}
+                {...register("author", { required: "Author is required" })}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.author && <p className="mt-2 text-red-500 text-sm">{errors.author.message}</p>}
@@ -41,7 +63,7 @@ export default function Create(){
                 </label>
             <input
                 id="title"
-                {...register("title", { required: "Content is required" })}
+                {...register("content", { required: "Content is required" })}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.content && <p className="mt-2 text-red-500 text-sm">{errors.content.message}</p>}

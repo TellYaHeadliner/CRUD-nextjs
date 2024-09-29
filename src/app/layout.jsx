@@ -1,6 +1,10 @@
+'use client'
 import "./globals.css";
+import 'react-toastify/dist/ReactToastify.css';
+
 import Navbar from "@/components/App.Navbar";
 import Footer from "@/components/App.Footer";
+import { ToastContainer } from "react-toastify";
 
 export default function RootLayout({ children }) {
   return (
@@ -9,6 +13,7 @@ export default function RootLayout({ children }) {
         <Navbar/>
         {children}
         <Footer/>
+        <ToastContainer />
       </body>
     </html>
   );
