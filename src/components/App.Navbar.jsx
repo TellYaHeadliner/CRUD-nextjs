@@ -21,17 +21,7 @@ export default function Navbar() {
                                     <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
                                         Create
                                     </span>
-                                </Link>         
-                                <Link href={"/Delete"}>
-                                    <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
-                                        Delete
-                                    </span>
-                                </Link>   
-                                <Link href={"/Update"}>
-                                    <span className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
-                                        Update
-                                    </span>
-                                </Link>                        
+                                </Link>                             
                             </div>
                         </div>
                     </div>
