@@ -1,23 +1,16 @@
 'use client'
 import useSWR from "swr";
-import { useRouter } from "next/compat/router";
-import Link from "next/link";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import "@/app/globals.css";
 
 
+
 export default function Main(){
+  const router = useRouter();
 
-  const router = useRouter()
-
-  const handleUpdate = (item) => (
-    router.push({
-      pathname: '/Update',
-      query: {id: item?.id, title: item?.title, content: item?.content},
-    })
-  )
-
+  const [blog , setBlog] = useState(null);
   const fetcher = (...args) => fetch(...args).then(res => res.json())
   
   const { data, error, isLoading } = useSWR('http://localhost:8000/blogs', fetcher);
@@ -52,11 +45,12 @@ export default function Main(){
                   <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                     Delete
                   </button>
-                    <Link href={{
-                      pathname: '/Update/',
-                      query: {item: item}
-                    }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    </Link>
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={ () => {
+                    router.push(`/Update/Blogs/${item.id}`)
+                  }
+                  }>
+                    Edit
+                  </button>
                 </div>
               </td>   
             </tr>

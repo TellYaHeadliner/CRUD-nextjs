@@ -4,25 +4,35 @@ import "@/app/globals.css";
 
 import { useForm } from "react-hook-form";
 import { toast} from "react-toastify";
-import { useRouter } from "next/compat/router";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
+export default function Update({ params}){
 
-
-export default function Update(){
     const router = useRouter();
+    const { register, handleSubmit, setValue, formState: {errors} } = useForm();
 
-    const [blog, setBlog] = useState({
-        id: '',
-        title: '',
-        content: ''
-    })
 
-    const { register, handleSubmit, formState: {errors}, } = useForm();
+    useEffect(() => {
+        if (params) {
+            const fetchBlog = async () => {
+                console.log(params);
+                const response = await fetch(`http://localhost:8000/blogs/${params.id}`);
+                const data = await response.json();
+                // Thiết lập giá trị vào form
+                setValue("title", data.title);
+                setValue("author", data.author);
+                setValue("content", data.content);
+            };
+
+            fetchBlog();
+        }
+    },[params, setValue])
+
     const onSubmit = async (data) => {
         try {
-            const response = await fetch("http://localhost:8000/blogs", {
-                method: "POST",
+            const response = await fetch(`http://localhost:8000/blogs/${params.id}`, {
+                method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
                 },
@@ -31,7 +41,8 @@ export default function Update(){
 
             if (response.ok){
                 const result = await response.json();
-                toast.success("Dữ liệu của bạn đã thêm thành công");
+                toast.success("Chỉnh sửa thành công");
+                router.push('/')
             }
             else {
                 toast.error('Có lỗi khi chèn dữ liệu');
@@ -42,8 +53,7 @@ export default function Update(){
         }   
     }
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-lg mx-auto p-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-lg mx-auto p-4">
             <div>
                 <label htmlFor="title" className="block text-lg font-medium text-gray-700">
                     Title
@@ -88,6 +98,5 @@ export default function Update(){
             Submit
             </button>
         </form>        
-        </div>
     )
 }
